@@ -1,10 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+  layout.html
+  spa browser document
+-->
+
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+<head>
+    <!-- ie9+ rendering support for latest standards -->
+    <meta http-equiv="Content-Type" content="text/html;
+    charset=ISO-8859-1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Network.</title>
+
+    <!-- third-party stylesheets -->
+    <link rel="stylesheet" href="css/normalize.css"     type="text/css"/>
+
+    <!-- our stylesheets -->
+    <link rel="stylesheet" href="css/network.css"       type="text/css"/>
+
+    <!-- third-party javascript -->
+    <script src="socket.io/socket.io.js"            ></script>
+    <script src="js/jq/taffydb-2.6.2.js"            ></script>
+    <script src="js/jq/jquery-1.9.1.js"             ></script>
+    <script src="js/jq/jquery.uriAnchor-1.1.3.js"   ></script>
+    <script src="js/jq/jquery.event.gevent-0.1.9.js"></script>
+    <script src="js/jq/jquery.event.ue-0.3.2.js"    ></script>
+
+    <!-- our javascript -->
+    <script src="js/network.js"       ></script>
+
+    <script>
+        //$(function () { network.initModule( $('#spa') ); });
+    </script>
+
 </head>
 <body>
+<div id="network">
 
+    <header id="network-global-header">
+        <div id="network-global-header-wrapper">
+            <div id="network-global-header-logo">Network.</div>
+            <nav id="network-global-header-nav">
+                <button id="network-global-header-nav-signup">Sign Up</button>
+                <button id="network-global-header-nav-login">Login</button>
+                <button id="network-global-header-nav-logout">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <section id="network-global-section">
+
+        <div id="network-global-section-wrapper">
+            <article id="network-global-section-article-info">
+                <h1>Welcome.</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis ligula bibendum lacus imperdiet
+                    eleifend sit amet in orci. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur
+                    venenatis, nibh et cursus feugiat, lacus justo consectetur nibh, at venenatis velit felis ac mi.
+                </p>
+                <p>Fusce sodales auctor diam. Donec dignissim neque euismod massa tristique, quis vehicula erat
+                    dignissim. Vivamus augue neque, auctor id lectus vel, euismod consequat quam. Donec dolor urna,
+                    fringilla et metus ac, porta feugiat libero. Vestibulum luctus, lectus non pharetra laoreet, orci
+                    urna tincidunt nulla, eu posuere nibh libero non quam. Mauris odio dui, pretium a consectetur vel,
+                    tincidunt id est. Duis eget rhoncus enim. Donec ac nisl sit amet mi placerat posuere condimentum at
+                    ex. Ut nec commodo lectus, dictum fringilla ipsum. Integer aliquam augue in ex pretium viverra.
+                </p>
+            </article>
+        </div>
+
+    </section>
+
+    <footer id="network-global-footer">
+        <div id="network-global-footer-wrapper">
+            &#64; Tom Wilkins 2014
+        </div>
+    </footer>
+
+</div>
 </body>
 </html>

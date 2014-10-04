@@ -1,0 +1,148 @@
+/*
+ * network.scss
+ * Root namespace styles
+*/
+
+/* SCSS imports */
+@import "_mixin.scss";
+
+/* Start Global Variables */
+
+// colours
+$green : #ACE48E;
+$darkGreen : #93C777;
+$red : rgb(241, 0, 3);
+$lightRed : rgb(255, 97, 98);
+$bodyColour: #e9eaed;
+
+// sizes
+$pageWidth : 900px;
+$headerHeight : 80px;
+
+/* End Global Variables */
+
+#network{
+  background-color: $bodyColour;
+  font-family: "Helvetica Neue",Helvetica, Arial,sans-serif;
+  font-size: 16px;
+
+  /* Start HTML Tag Styles */
+
+  h1{
+    border-bottom: 1px solid $darkGreen;
+  }
+
+  /* End HTML Tag Styles */
+
+  /* Start Global Styles */
+  &-global{
+
+    /* Start Global Header Styles */
+    &-header {
+
+      background-color: $green;
+      width:100%;
+      height:$headerHeight;
+      border-bottom: 1px solid $darkGreen;
+
+      // center header items inside a wrapper
+      &-wrapper{
+        @include center($pageWidth);
+      }
+
+      &-logo{
+        font-size:4.5em;
+        color:black;
+        float:left;
+      }
+
+      /* Start Global Header Nav Styles */
+      &-nav{
+        font-size: 1.5em;
+        float:right;
+        top:100px;
+        margin-top:$headerHeight/2 ;
+
+        &-signUp{
+          float:left;
+          padding: 0px 10px;
+          color: $red;
+          background-color: transparent;
+          border:none;
+          @include transition(color, .2s);
+          border-right: 1px $darkGreen solid;
+          &:hover{
+            color: $lightRed;
+          }
+        }
+
+        &-login, &-logout{
+          float:left;
+          padding: 0px 10px;
+          background-color: transparent;
+          border:none;
+          @include transition(color, .2s);
+          &:hover{
+            color: rgba(0, 0, 0, 0.50);
+          }
+        }
+
+        &-profile{
+          float:left;
+          padding: 0px 10px;
+          border-right: 1px $darkGreen solid
+        }
+      }
+      /* End Global Header Nav Styles */
+
+    }
+    /* End Global Header Styles */
+
+    /* Start Global Section Styles */
+    &-section{
+      margin:50px 0px;
+
+      // center global section in page
+      @include center($pageWidth);
+
+      &-wrapper {
+        background-color: white;
+        border-radius: 2px;
+        border: 1px solid;
+        border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+        @include center(400px);
+        padding: 10px 40px;
+        font-size: 18px;
+      }
+
+      /* Start Global Section Article Styles */
+      &-article{
+
+        border-bottom: 1px rgba(255, 255, 255, 0.3) solid;
+        border-radius: 2px;
+      }
+      /* End Global Section Article Styles */
+
+    }
+    /* End Global Section Styles */
+
+    /* Start Global Footer Styles */
+    &-footer{
+      padding-top:10px;
+      background-color: white;
+      border-radius: 2px;
+      border-top: 1px solid;
+      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+      text-align: center;
+      color: #37383b;
+      &-wrapper{
+        @include center($pageWidth);
+      }
+    }
+    /* End Global Footer Styles */
+
+  }
+  /* End Global Styles */
+
+
+}

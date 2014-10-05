@@ -16,7 +16,7 @@ network.model = (function () {
             user           : null
         },
 
-        isFakeData = true,
+        isFakeData = false,
 
         personProto, makeCid, clearPeopleDb, completeLogin,
         makePerson, removePerson, people, chat, initModule;
@@ -146,35 +146,46 @@ network.model = (function () {
 
         // registers a user
         register = function(name, password){
+            var newuser, sio = isFakeData ? network.fake.mockSio : network.data.getSio();
 
             if(!name || !password){
                 alert("Username and password required!");
                 return false;
             }
-            console.log(stateMap.people_db().first());
-            console.log(stateMap.people_db({name : name}).count());
+
             if(stateMap.people_db({name : name}).count()){
                 alert("User already exists!");
                 return false;
             }
 
-            stateMap.people_db.insert(
-                makePerson({cid:makeCid(),
-                            name : name,
-                            password : password
-                })
-            );
+            // inserts new user into taffy local db
+            newuser = makePerson({
+                cid:makeCid(),
+                name : name,
+                password : password
+            });
 
-            alert("Register Successful!");
-            login(name, password);
+            // user login when registered has completed.
+            sio.on('userupdate',
+                login(name, password));
+
+            alert("Registeration Complete!")
+
+            // adds user to mongo server db
+            sio.emit( 'adduser', {
+                cid     : newuser.cid,
+                css_map : newuser.css_map,
+                name    : newuser.name,
+                password : newuser.password
+            });
 
             return true;
         };
 
         // logs a user in
         login = function ( name, password ) {
-            var sio = isFakeData ? network.fake.mockSio : network.data.getSio();
 
+            var sio = isFakeData ? network.fake.mockSio : network.data.getSio();
 
             if(!stateMap.people_db({name : name, password : password}).count()){
                 return false;
@@ -189,12 +200,14 @@ network.model = (function () {
 
             sio.on( 'userupdate', completeLogin );
 
-            sio.emit( 'adduser', {
+            sio.emit( 'signinuser', {
                 cid     : stateMap.user.cid,
                 css_map : stateMap.user.css_map,
                 name    : stateMap.user.name,
                 password : stateMap.user.password
             });
+
+            console.log("sign in user emitted");
 
             return true;
         };

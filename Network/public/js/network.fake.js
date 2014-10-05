@@ -57,6 +57,21 @@ network.fake = (function () {
             // Respond to 'adduser' event with 'userupdate'
             // callback after a 3s delay.
             if ( msg_type === 'adduser' && callback_map.userupdate ) {
+                console.log("add user " + data.name);
+                //setTimeout( function () {
+                    person_map = {
+                        _id     : makeFakeId(),
+                        name    : data.name,
+                        password : data.password,
+                        css_map : data.css_map
+                    };
+                    peopleList.push( person_map );
+                    callback_map.userupdate([ person_map ]);
+               // }, 3000 );
+            }
+
+            if ( msg_type === 'signinuser' && callback_map.userupdate ) {
+                console.log("singinuser " + data.name);
                 setTimeout( function () {
                     person_map = {
                         _id     : makeFakeId(),

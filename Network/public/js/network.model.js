@@ -134,7 +134,7 @@ network.model = (function () {
 
     // API
     people = (function () {
-        var get_by_cid, get_db, get_user, login, logout;
+        var get_by_cid, get_db, get_user, login, logout, register;
 
         get_by_cid = function ( cid ) {
             return stateMap.people_cid_map[ cid ];
@@ -144,9 +144,41 @@ network.model = (function () {
 
         get_user = function () { return stateMap.user; };
 
+        // registers a user
+        register = function(name, password){
+
+            if(!name || !password){
+                alert("Username and password required!");
+                return false;
+            }
+            console.log(stateMap.people_db().first());
+            console.log(stateMap.people_db({name : name}).count());
+            if(stateMap.people_db({name : name}).count()){
+                alert("User already exists!");
+                return false;
+            }
+
+            stateMap.people_db.insert(
+                makePerson({cid:makeCid(),
+                            name : name,
+                            password : password
+                })
+            );
+
+            alert("Register Successful!");
+            login(name, password);
+
+            return true;
+        };
+
         // logs a user in
         login = function ( name, password ) {
             var sio = isFakeData ? network.fake.mockSio : network.data.getSio();
+
+
+            if(!stateMap.people_db({name : name, password : password}).count()){
+                return false;
+            }
 
             stateMap.user = makePerson({
                 cid     : makeCid(),
@@ -163,9 +195,12 @@ network.model = (function () {
                 name    : stateMap.user.name,
                 password : stateMap.user.password
             });
+
+            return true;
         };
 
         logout = function () {
+            console.log("logout clicked");
             var user = stateMap.user;
 
             //chat._leave();
@@ -180,13 +215,30 @@ network.model = (function () {
             get_db     : get_db,
             get_user   : get_user,
             login      : login,
-            logout     : logout
+            logout     : logout,
+            register   : register
         };
     }());
 
 
     var initModule = function ( ) {
+        var i, people_list, person_map;
         stateMap.user = null;
+
+        console.log(stateMap.people_db());
+        if (isFakeData){
+            people_list = network.fake.getPeopleList();
+            for ( i = 0; i < people_list.length; i++ ) {
+                person_map = people_list[ i ];
+                makePerson({
+                    cid: person_map._id,
+                    css_map: person_map.css_map,
+                    id: person_map._id,
+                    name: person_map.name,
+                    password : person_map.password
+                });
+            }
+        }
     };
 
     return { initModule : initModule,

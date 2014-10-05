@@ -5,7 +5,7 @@
 
 network.fake = (function () {
     'use strict';
-    var peopleList, fakeIdSerial, makeFakeId, mockSio;
+    var peopleList, fakeIdSerial, makeFakeId, getPeopleList, mockSio;
 
     fakeIdSerial = 5;
 
@@ -13,8 +13,12 @@ network.fake = (function () {
         return 'id_' + String( fakeIdSerial++ );
     };
 
+    getPeopleList = function(){
+        return peopleList;
+    };
+
     peopleList = [
-        { name : 'Betty', password : 'password',  _id : 'id_01',
+        { name : 'Tom', password : 'Wilkins',  _id : 'id_01',
             css_map : { top: 20, left: 20,
                 'background-color' : 'rgb( 128, 128, 128)'
             }
@@ -140,5 +144,6 @@ network.fake = (function () {
         return { emit : emit_sio, on : on_sio };
     }());
 
-    return { mockSio : mockSio };
+    return { mockSio : mockSio,
+            getPeopleList : getPeopleList};
 }());

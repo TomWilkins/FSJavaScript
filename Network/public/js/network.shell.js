@@ -14,7 +14,7 @@ network.shell = (function () {
                 +   '<div id="network-global-header-wrapper">'
                 +        '<div id="network-global-header-logo">Network.</div>'
                 +        '<nav id="network-global-header-nav">'
-                +           '<button id="network-global-header-nav-signUp">Sign Up</button>'
+                +           '<button id="network-global-header-nav-register">Register</button>'
                 +           '<button id="network-global-header-nav-login">Login</button>'
                 +           '<div id="network-global-header-nav-profile"></div>'
                 +           '<button id="network-global-header-nav-logout">Logout</button>'
@@ -37,7 +37,7 @@ network.shell = (function () {
         },
         jqueryMap = {},
 
-        setJqueryMap, setFakeNews, onLogin, onLogout, initModule, processLogin, processSignUp;
+        setJqueryMap, setFakeNews, onLogin, onLogout, initModule, processLogin, processRegister;
     //----------------- END MODULE SCOPE VARIABLES --------------
 
     //------------------- BEGIN UTILITY METHODS ------------------
@@ -53,7 +53,7 @@ network.shell = (function () {
             $header    : $container.find('#network-global-header'),
             $logo      : $container.find('#network-global-header-logo'),
             $nav       : $container.find('#network-global-header-nav'),
-            $signUpButton : $container.find('button#network-global-header-nav-signUp'),
+            $registerButton : $container.find('#network-global-header-nav-register'),
             $loginButton : $container.find('#network-global-header-nav-login'),
             $logoutButton : $container.find('#network-global-header-nav-logout'),
             $navProfile : $container.find('#network-global-header-nav-profile'),
@@ -93,25 +93,44 @@ network.shell = (function () {
 
         var user_name, password;
 
-            user_name = prompt( 'Enter Username' );
-            password = prompt( 'Enter Password' );
+        user_name = prompt( 'Enter Username' );
+        password = prompt( 'Enter Password' );
 
-            if(!user_name || !password){
-                alert("A username and password must be entered!");
-                return false;
-            }
-            network.model.people.login( user_name, password );
-            jqueryMap.$loginButton.hide()
-            jqueryMap.$signUpButton.hide();
-            jqueryMap.$navProfile.show();
-            jqueryMap.$navProfile.text( '... processing ...' );
+        if(!user_name || !password){
+            alert("A username and password must be entered!");
+            return false;
+        }
+
+        if (!network.model.people.login( user_name, password )){
+            alert("Invalid login");
+            return false;
+        }
+
+        jqueryMap.$loginButton.hide()
+        jqueryMap.$registerButton.hide();
+        jqueryMap.$navProfile.show();
+        jqueryMap.$navProfile.text( '... processing ...' );
 
         return false;
     };
 
-    processSignUp = function ( event ) {
+    processRegister = function ( event ) {
 
-        alert("Need to implement sign up.");
+        console.log("Register clicked");
+
+        var user_name, password;
+
+        user_name = prompt( 'Enter Username' );
+        password = prompt( 'Enter Password' );
+
+        if(!network.model.people.register(user_name, password)){
+            return false;
+        }
+
+        jqueryMap.$loginButton.hide()
+        jqueryMap.$registerButton.hide();
+        jqueryMap.$navProfile.show();
+        jqueryMap.$navProfile.text( '... processing ...' );
 
         return false
     };
@@ -119,10 +138,7 @@ network.shell = (function () {
     onLogin = function ( event, login_user ) {
 
         // TODO :; find a better way to handle this
-
         jqueryMap.$logoutButton.show();
-
-
         jqueryMap.$navProfile.text(login_user.name);
     };
 
@@ -131,7 +147,7 @@ network.shell = (function () {
         jqueryMap.$logoutButton.hide();
         jqueryMap.$navProfile.hide();
         jqueryMap.$loginButton.show()
-        jqueryMap.$signUpButton.show();
+        jqueryMap.$registerButton.show();
     };
 
     //-------------------- END EVENT HANDLERS --------------------
@@ -159,11 +175,15 @@ network.shell = (function () {
 
         // note : utap is from plugin - https://github.com/mmikowski/jquery.event.ue
         // ** utap not working - changed to click
+        jqueryMap.$logoutButton
+            .on("click", function(){network.model.people.logout()} );
+
         jqueryMap.$loginButton
             .on("click", processLogin);
 
-        jqueryMap.$signUpButton
-            .on("click", processSignUp );
+        jqueryMap.$registerButton
+            .on("click", processRegister );
+
     };
     // End PUBLIC method /initModule/
 

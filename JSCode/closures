@@ -1,0 +1,47 @@
+http://javascriptissexy.com/understand-javascript-closures-with-ease/
+
+/*
+
+  1. Closures
+
+A closure is an inner function that has access to the outer functions variables
+It has access to its own scope, outer functions scope and global scope
+
+Example:
+
+function showName(first, last){
+
+  var nameIntro = "Your name is: ";
+
+  function makeFullName(){
+    return nameIntro + name + " " + last
+  }
+
+
+  return makeFullName();
+}
+
+
+Closures have access to the outer functions variables even after the outer function has returned.
+
+Example:
+
+function celebName(name){
+  var intro = "celeb name : ";
+
+  function lastName(theLastName){
+    return intro + name + " " + theLastName;
+  }
+
+  return lastName;
+}
+
+var me = celebName("Tom"); // function has returned
+
+me("Awesome"); // closure lastName is called and still has access to original name
+
+
+Closures store references to outer functions variables, therefore if they change in the outer function
+  the closure will use the current variable value.
+
+*/
